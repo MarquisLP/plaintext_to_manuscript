@@ -3,21 +3,31 @@ pub fn format_em_dashes(text: &String) -> String {
 
     let text_chars: Vec<char> = text.chars().collect();
 
+    let text_length = text_chars.len();
+    let last_char_index: usize;
+    if text_length == 0 {
+        last_char_index = 0;
+    } else {
+        last_char_index = text_length - 1;
+    }
+
     let mut consecutive_hyphens_count = 0;
-    for character in text_chars {
-        if character == '-' {
+    for (i, character) in text_chars.iter().enumerate() {
+        if *character == '-' {
             consecutive_hyphens_count += 1;
 
             if consecutive_hyphens_count == 2 {
                 formatted_text.push('—');
                 consecutive_hyphens_count = 0
+            } else if i == last_char_index {
+                formatted_text.push('-');
             }
         } else {
             if consecutive_hyphens_count == 1 {
                 formatted_text.push('-');
             }
 
-            formatted_text.push(character);
+            formatted_text.push(*character);
 
             consecutive_hyphens_count = 0
         }
@@ -46,6 +56,15 @@ mod tests {
         let output = format_em_dashes(&input);
 
         assert_eq!("Did you get the x-ray gun from my mother-in-law?", output);
+    }
+
+    #[test]
+    fn returns_unaltered_text_when_single_hyphen_at_the_end() {
+        let input = String::from("Ending with one hyphen-");
+
+        let output = format_em_dashes(&input);
+
+        assert_eq!("Ending with one hyphen-", output);
     }
 
     #[test]
