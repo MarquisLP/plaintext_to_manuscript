@@ -1,4 +1,4 @@
-use crate::format_special_chars::format_special_char::FormatSpecialChars;
+use super::format_special_chars::FormatSpecialChars;
 
 fn is_end_of_phrase(character: char) -> bool {
     (character == '.') || (character == '?') || (character == '!')

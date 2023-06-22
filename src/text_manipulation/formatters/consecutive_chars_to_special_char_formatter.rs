@@ -1,4 +1,4 @@
-use crate::format_special_chars::format_special_char::FormatSpecialChars;
+use super::format_special_chars::FormatSpecialChars;
 
 pub struct ConsecutiveCharsToSpecialCharFormatter {
     char_to_replace: char,
