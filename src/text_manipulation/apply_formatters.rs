@@ -1,6 +1,6 @@
-use super::formatters::format_special_chars::FormatSpecialChars;
+use super::formatters::format_text_char_by_char::FormatTextCharByChar;
 
-pub fn apply_formatters(input_text: &str, mut formatters: Vec<Box<dyn FormatSpecialChars>>) -> String {
+pub fn apply_formatters(input_text: &str, mut formatters: Vec<Box<dyn FormatTextCharByChar>>) -> String {
     let num_of_formatters = formatters.len();
     if num_of_formatters == 0 {
         return String::from(input_text);
@@ -71,7 +71,7 @@ mod tests {
             '”',
         );
 
-        let formatters: Vec<Box<dyn FormatSpecialChars>> = vec![
+        let formatters: Vec<Box<dyn FormatTextCharByChar>> = vec![
             Box::new(apostrophe_formatter),
             Box::new(ellipsis_formatter),
             Box::new(em_dash_formatter),

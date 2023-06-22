@@ -1,4 +1,4 @@
-use super::format_special_chars::{FormatSpecialChars, FormatSpecialCharsResult};
+use super::format_text_char_by_char::{FormatTextCharByChar, FormatTextCharByCharResult};
 
 pub struct ConsecutiveCharsToSpecialCharFormatter {
     char_to_replace: char,
@@ -18,8 +18,8 @@ impl ConsecutiveCharsToSpecialCharFormatter {
     }
 }
 
-impl FormatSpecialChars for ConsecutiveCharsToSpecialCharFormatter {
-    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatSpecialCharsResult {
+impl FormatTextCharByChar for ConsecutiveCharsToSpecialCharFormatter {
+    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatTextCharByCharResult {
         let mut output_chars: Vec<char> = Vec::new();
         let mut run_next_formatter = true;
 
@@ -51,7 +51,7 @@ impl FormatSpecialChars for ConsecutiveCharsToSpecialCharFormatter {
             }
         }
 
-        FormatSpecialCharsResult { formatted_chars: output_chars, run_next_formatter }
+        FormatTextCharByCharResult { formatted_chars: output_chars, run_next_formatter }
     }
 }
 

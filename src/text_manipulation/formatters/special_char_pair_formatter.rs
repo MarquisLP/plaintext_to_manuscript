@@ -1,4 +1,4 @@
-use super::format_special_chars::{FormatSpecialChars, FormatSpecialCharsResult};
+use super::format_text_char_by_char::{FormatTextCharByChar, FormatTextCharByCharResult};
 
 pub struct SpecialCharPairFormatter {
     char_to_replace: char,
@@ -18,8 +18,8 @@ impl SpecialCharPairFormatter {
     }
 }
 
-impl FormatSpecialChars for SpecialCharPairFormatter {
-    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatSpecialCharsResult {
+impl FormatTextCharByChar for SpecialCharPairFormatter {
+    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatTextCharByCharResult {
         let mut formatted_chars: Vec<char> = Vec::new();
         let mut run_next_formatter = true;
 
@@ -34,7 +34,7 @@ impl FormatSpecialChars for SpecialCharPairFormatter {
             run_next_formatter = false;
         }
 
-        FormatSpecialCharsResult { formatted_chars, run_next_formatter }
+        FormatTextCharByCharResult { formatted_chars, run_next_formatter }
     }
 }
 

@@ -1,4 +1,4 @@
-use super::format_special_chars::{FormatSpecialChars, FormatSpecialCharsResult};
+use super::format_text_char_by_char::{FormatTextCharByChar, FormatTextCharByCharResult};
 
 fn is_end_of_phrase(character: char) -> bool {
     (character == '.') || (character == '?') || (character == '!')
@@ -16,8 +16,8 @@ impl ApostropheFormatter {
     }
 }
 
-impl FormatSpecialChars for ApostropheFormatter {
-    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatSpecialCharsResult {
+impl FormatTextCharByChar for ApostropheFormatter {
+    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatTextCharByCharResult {
         let mut formatted_chars: Vec<char> = Vec::new();
         let mut run_next_formatter = true;
 
@@ -29,7 +29,7 @@ impl FormatSpecialChars for ApostropheFormatter {
 
         self.previous_input_char = *input_char;
 
-        FormatSpecialCharsResult { formatted_chars, run_next_formatter }
+        FormatTextCharByCharResult { formatted_chars, run_next_formatter }
     }
 }
 
