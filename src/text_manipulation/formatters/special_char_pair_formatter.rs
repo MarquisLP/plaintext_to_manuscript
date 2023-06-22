@@ -1,4 +1,4 @@
-use super::format_special_chars::FormatSpecialChars;
+use super::format_special_chars::{FormatSpecialChars, FormatSpecialCharsResult};
 
 pub struct SpecialCharPairFormatter {
     char_to_replace: char,
@@ -19,22 +19,22 @@ impl SpecialCharPairFormatter {
 }
 
 impl FormatSpecialChars for SpecialCharPairFormatter {
-    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> Option<Vec<char>> {
-        if *input_char == self.char_to_replace {
-            let mut output_chars: Vec<char> = Vec::new();
+    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatSpecialCharsResult {
+        let mut formatted_chars: Vec<char> = Vec::new();
+        let mut run_next_formatter = true;
 
+        if *input_char == self.char_to_replace {
             if self.next_char_to_insert_is_second {
-                output_chars.push(self.char_to_insert_second);
+                formatted_chars.push(self.char_to_insert_second);
             } else {
-                output_chars.push(self.char_to_insert_first);
+                formatted_chars.push(self.char_to_insert_first);
             }
 
             self.next_char_to_insert_is_second = !self.next_char_to_insert_is_second;
-
-            Some(output_chars)
-        } else {
-            None
+            run_next_formatter = false;
         }
+
+        FormatSpecialCharsResult { formatted_chars, run_next_formatter }
     }
 }
 
@@ -60,11 +60,12 @@ mod tests {
             let input_char = input_chars.get(i).unwrap();
             let next_input_char = input_chars.get(i+1);
 
-            let mut formatted_chars = formatter.get_formatted_chars(input_char, next_input_char);
+            let mut formatter_result = formatter.get_formatted_chars(input_char, next_input_char);
 
-            match &mut formatted_chars {
-                Some(formatted_chars) => output_chars.append(formatted_chars),
-                None => output_chars.push(*input_char),
+            output_chars.append(&mut formatter_result.formatted_chars);
+
+            if formatter_result.run_next_formatter {
+                output_chars.push(*input_char);
             }
         }
 

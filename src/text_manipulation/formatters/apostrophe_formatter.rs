@@ -1,4 +1,4 @@
-use super::format_special_chars::FormatSpecialChars;
+use super::format_special_chars::{FormatSpecialChars, FormatSpecialCharsResult};
 
 fn is_end_of_phrase(character: char) -> bool {
     (character == '.') || (character == '?') || (character == '!')
@@ -17,19 +17,19 @@ impl ApostropheFormatter {
 }
 
 impl FormatSpecialChars for ApostropheFormatter {
-    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> Option<Vec<char>> {
-        let formatted_chars: Option<Vec<char>>;
+    fn get_formatted_chars(&mut self, input_char: &char, _next_input_char: Option<&char>) -> FormatSpecialCharsResult {
+        let mut formatted_chars: Vec<char> = Vec::new();
+        let mut run_next_formatter = true;
 
         // If the ' character is preceded or followed by a space/newline, we assume it is meant to be a single quotation mark instead of an apostrophe.
-        if (*input_char != '\'') || (self.previous_input_char == '\n') || (self.previous_input_char == ' ') || _next_input_char.is_none() || _next_input_char.is_some_and(|_next_input_char| (is_end_of_phrase(self.previous_input_char) && *_next_input_char == ' ') || *_next_input_char == '\n') {
-            formatted_chars = None;
-        } else {
-            formatted_chars = Some(vec!('’'));
+        if (*input_char == '\'') && (self.previous_input_char != '\n') && (self.previous_input_char != ' ') && !_next_input_char.is_none() && !_next_input_char.is_some_and(|_next_input_char| (is_end_of_phrase(self.previous_input_char) && *_next_input_char == ' ') || *_next_input_char == '\n') {
+            formatted_chars.push('’');
+            run_next_formatter = false;
         }
 
         self.previous_input_char = *input_char;
 
-        formatted_chars
+        FormatSpecialCharsResult { formatted_chars, run_next_formatter }
     }
 }
 
@@ -49,11 +49,12 @@ mod tests {
             let input_char = input_chars.get(i).unwrap();
             let next_input_char = input_chars.get(i+1);
 
-            let mut formatted_chars = formatter.get_formatted_chars(input_char, next_input_char);
+            let mut formatter_result = formatter.get_formatted_chars(input_char, next_input_char);
 
-            match &mut formatted_chars {
-                Some(formatted_chars) => output_chars.append(formatted_chars),
-                None => output_chars.push(*input_char),
+            output_chars.append(&mut formatter_result.formatted_chars);
+
+            if formatter_result.run_next_formatter {
+                output_chars.push(*input_char);
             }
         }
 

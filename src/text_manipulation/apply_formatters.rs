@@ -14,24 +14,22 @@ pub fn apply_formatters(input_text: &str, mut formatters: Vec<Box<dyn FormatSpec
         let input_char = input_chars.get(i).unwrap();
         let next_input_char = input_chars.get(i+1);
 
-        let mut formatter_was_run = false;
+        let mut at_least_one_formatter_found_a_match = false;
         let mut formatter_index: usize = 0;
-        while !formatter_was_run && (formatter_index < num_of_formatters)  {
+        while !at_least_one_formatter_found_a_match && (formatter_index < num_of_formatters)  {
             let formatter = formatters.get_mut(formatter_index).unwrap();
 
-            let mut formatted_chars = formatter.get_formatted_chars(input_char, next_input_char);
-            match &mut formatted_chars {
-                Some(formatted_chars) => {
-                    output_chars.append(formatted_chars);
-                    formatter_was_run = true;
-                },
-                None => {}
+            let mut formatter_result = formatter.get_formatted_chars(input_char, next_input_char);
+
+            output_chars.append(&mut formatter_result.formatted_chars);
+            if !formatter_result.run_next_formatter {
+                at_least_one_formatter_found_a_match = true;
             }
 
             formatter_index += 1;
         }
 
-        if !formatter_was_run {
+        if !at_least_one_formatter_found_a_match {
             output_chars.push(*input_char);
         }
     }
