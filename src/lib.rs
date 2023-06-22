@@ -5,4 +5,6 @@ pub mod text_manipulation {
         pub mod special_char_pair_formatter;
         pub mod apostrophe_formatter;
     }
+
+    pub mod apply_formatters;
 }
