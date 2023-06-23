@@ -1,5 +1,5 @@
 use std::env;
-use markdown_to_manuscript::convert_file::convert_file;
+use plaintext_to_manuscript::convert_file::convert_file;
 
 struct Config {
     file_path: String,
