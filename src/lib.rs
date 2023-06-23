@@ -8,3 +8,5 @@ pub mod text_manipulation {
 
     pub mod apply_formatters;
 }
+
+pub mod convert_file;
