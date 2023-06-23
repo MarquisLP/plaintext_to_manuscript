@@ -27,6 +27,11 @@ pub fn convert_file(file_path: &str) -> String {
 // TODO: Selectively include formatters based on config.
 fn create_text_formatters() -> Vec<Box<dyn FormatTextCharByChar>> {
     let apostrophe_formatter = ApostropheFormatter::new();
+    let single_newline_formatter = ConsecutiveCharsToSpecialCharFormatter::new(
+        '\n',
+        '\n',
+        2,
+    );
     let em_dash_formatter = ConsecutiveCharsToSpecialCharFormatter::new(
         '-',
         '—',
@@ -50,6 +55,7 @@ fn create_text_formatters() -> Vec<Box<dyn FormatTextCharByChar>> {
 
     let formatters: Vec<Box<dyn FormatTextCharByChar>> = vec![
         Box::new(apostrophe_formatter),
+        Box::new(single_newline_formatter),
         Box::new(ellipsis_formatter),
         Box::new(em_dash_formatter),
         Box::new(single_quotes_formatter),
