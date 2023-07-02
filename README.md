@@ -26,7 +26,6 @@ After running the tool and getting the output, all you need to do is post it int
 
 Unfortunately, if you're a fan of Markdown like I am, this tool won't do anything about italics and boldings and such, so you'll still need to apply those manually in a word processor. But perhaps someday, this disclaimer won't need to be here anymore…
 
-
 ## Running It
 
 Go to the [Releases page](https://github.com/MarquisLP/plaintext_to_manuscript/releases), click on the latest release, and download the application file. The file to download will differ depending on your operating system:
