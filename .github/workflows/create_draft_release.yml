@@ -23,6 +23,10 @@ jobs:
     - name: Build
       run: cargo build --release --verbose
 
+    - name: Rename target file to avoid file name clash in Mac and Linux
+      run: |
+        [ -f target/release/plaintext_to_manuscript ] && mv target/release/plaintext_to_manuscript target/release/plaintext_to_manuscript_${{ matrix.os }}
+
     - name: Release
       uses: softprops/action-gh-release@v1
       with:

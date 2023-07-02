@@ -29,7 +29,8 @@ Unfortunately, if you're a fan of Markdown like I am, this tool won't do anythin
 ## Running It
 
 Go to the [Releases page](https://github.com/MarquisLP/plaintext_to_manuscript/releases), click on the latest release, and download the application file. The file to download will differ depending on your operating system:
-- **Linux/Mac** - `plaintext_to_manuscript`
+- **Linux** - `plaintext_to_manuscript_ubuntu-latest`
+- **Linux** - `plaintext_to_manuscript_macos-latest`
 - **Windows** - `plaintext_to_manuscript.exe`
 
 Next, on Linux or Mac, make the application executable:
