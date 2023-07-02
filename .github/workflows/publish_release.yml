@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, ubuntu-20.04, windows-latest]
 
     steps:
     - name: Checkout Github Repository
@@ -24,7 +24,7 @@ jobs:
       run: cargo build --release --verbose
 
     - name: Rename target file to avoid file name clash in Mac and Linux
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      if: matrix.os != 'windows-latest'
       run: |
         [ -f target/release/plaintext_to_manuscript ] && mv target/release/plaintext_to_manuscript target/release/plaintext_to_manuscript_${{ matrix.os }}
 
